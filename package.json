@@ -3,7 +3,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Joserodrgz/intranet-deca.git"
+    "url": "https://github.com/resetcontrol/intranet-deca.git"
   },
   "scripts": {
     "release": "bash ci/release.sh",
