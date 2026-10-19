@@ -49,6 +49,7 @@ mkdir -p "${BUILD_DIR}"
 cp -a "${SRC_DIR}/." "${BUILD_DIR}/"
 cp ci/install.sh "${BUILD_DIR}/install.sh"
 chmod +x "${BUILD_DIR}/install.sh"
+cp ci/install.lib.sh "${BUILD_DIR}/install.lib.sh"
 
 # Config files go apart: install.sh only creates them if they do not exist on the server
 mkdir -p "${BUILD_DIR}/config"
