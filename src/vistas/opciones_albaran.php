@@ -252,36 +252,36 @@ switch ($accion) {
     echo "<td align=right> <div id=tit3>$total_alb</div></td>";
     echo "<td align=center><div id=tit3>$stat_alb</div></td>";
     echo "<td align=left>  <div id=tit3>
-	<A HREF=javascript:ventana('$url','ventana','800','565','yes');>$numero_pdf</A></div></td>";
+	<A HREF=javascript:ventana('$url','opciones','800','565','yes');>$numero_pdf</A></div></td>";
     echo "<td align=center><div id=tit3>
-    <A HREF=javascript:ventana('$urleti','ventana','800','600','no');>
+    <A HREF=javascript:ventana('$urleti','opciones','800','600','no');>
     <img src=../../img/eti.png border=0></A></div></td>";
     echo "<td align=center><div id=tit3>
-    <A HREF=javascript:ventana('$url_cmr','ventana','700','420','yes');>
+    <A HREF=javascript:ventana('$url_cmr','opciones','700','420','yes');>
     <img src=$img_cmr border=0 height=18></A></div></td>";
     if ($cuenta_lin_ttes != 0) {
       echo "<td align=center><div id=tit2>
-	<A HREF=javascript:ventana('$url_tte','ventana','800','300','no');>
+	<A HREF=javascript:ventana('$url_tte','opciones','800','300','no');>
 	<img src=../../img/camion_lleno.png height=18 border=0></a></div></td>";
     }
     if ($cuenta_lin_ttes == 0) {
       echo "<td align=center><div id=tit2>
-	<A HREF=javascript:ventana('$url_tte','ventana','800','300','no');>
+	<A HREF=javascript:ventana('$url_tte','opciones','800','300','no');>
 	<img src=../../img/camion_vacio.png height=18 border=0></a></div></td>";
     }
     if ($tiene_obs == 'SI') {
       echo "<td align=center><div id=tit2>
-	<A HREF=javascript:ventana('$url_obs','ventana','800','300','no');>
+	<A HREF=javascript:ventana('$url_obs','opciones','800','300','no');>
 	<img src=../../img/bocadillo.gif height=18 border=0></a></div></td>";
     }
     if ($tiene_obs == 'NO') {
       echo "<td align=center><div id=tit2>
-	<A HREF=javascript:ventana('$url_obs','ventana','800','300','no');>
+	<A HREF=javascript:ventana('$url_obs','opciones','800','300','no');>
 	<img src=../../img/bocadillo_vacio.gif height=18 border=0></a></div></td>";
     }
 
     if (trim($ema_cli) != '') {
-      echo "<td align=right><div id=tit3><A HREF=javascript:ventana('$url_ema','ventana','600','150','no');>
+      echo "<td align=right><div id=tit3><A HREF=javascript:ventana('$url_ema','opciones','600','150','no');>
     <img src=../../img/properties.png border=0 height='12'></A></div></td>";
     } else {
       echo "<td align=center><div id=tit3>&nbsp;</div></td>";

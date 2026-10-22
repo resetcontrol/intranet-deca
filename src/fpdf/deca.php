@@ -264,18 +264,14 @@ if (trim($fecha != '')) {
       bru_hliven AS brut_lin,
       env_hliven AS enva_lin,
       num_hliven AS nume_lin,
-      des_art,
-      amp_marcas
-    FROM ffhliven, ffarticu, OUTER ffmarcas
+      des_art
+    FROM ffhliven, ffarticu
     WHERE TRIM(emp_hliven) = '$empr'
       AND cli_hliven = '$cliente'
       AND fec_hliven = '$fechafinal'
       AND alb_hliven = $numero
       AND ind_hliven = '$estado'
       AND cod_art = art_hliven
-      AND emp_marcas = emp_hliven
-      AND art_marcas = art_hliven
-      AND mar_marcas = mar_hliven
     ORDER BY num_hliven
   ";
 } else {
@@ -287,16 +283,12 @@ if (trim($fecha != '')) {
       marc_lin,
       bult_lin,
       brut_lin,
-      enva_lin,
-      amp_marcas
-    FROM ffarticu, fflineas, OUTER ffmarcas
+      enva_lin
+    FROM ffarticu, fflineas
     WHERE empr_lin = '$empr'
       AND alba_lin = $numero
       AND indi_lin = '$estado'
       AND cod_art = arti_lin
-      AND emp_marcas = empr_lin
-      AND art_marcas = arti_lin
-      AND mar_marcas = marc_lin
     ORDER BY nume_lin
   ";
 }
@@ -321,8 +313,48 @@ while ((odbc_fetch_row($resultado)) && ($lineas < 30)) {
     $des_env = ' ';
   }
 
-  $amp_marcas = odbc_result($resultado, "amp_marcas");
+  $cod_art = odbc_result($resultado, "cod_art");
   $marc_lin = odbc_result($resultado, "marc_lin");
+
+  // Marcas y mercancía: igual que en el CMR, desde la marca del artículo (ffmaract):
+  // texto de la marca, variedad y calibre
+  $termina = "
+    SELECT
+      ter_maract,
+      var_maract,
+      cal_maract
+    FROM ffmaract
+    WHERE emp_maract = '$empr'
+      AND art_maract = '$cod_art'
+      AND mar_maract = '$marc_lin'
+  ";
+  $res_termina = odbc_exec($conexion, $termina);
+
+  if (!$res_termina) {
+    $err = odbc_errormsg();
+    printf('Error en ' . __FILE__ . ' linea ' . __LINE__ . ', motivo --->    %s ', $err);
+  }
+
+  $des_termina = limpiar(odbc_result($res_termina, "ter_maract"));
+  $var = trim(odbc_result($res_termina, "var_maract"));
+  $cal = trim(odbc_result($res_termina, "cal_maract"));
+  odbc_free_result($res_termina);
+
+  if ((!$var) || ($var == 'C')) {
+    $var = '0';
+  }
+
+  if (!$cal) {
+    $cal = '0';
+  }
+
+  $des_var = variedad($cod_art, $var);
+  $des_cal = calibre($cal);
+
+  if ($des_termina == '') {
+    $des_termina = ' ';
+  }
+
   $cod_marca = substr($marc_lin, 0, 1);
   $des_marca = $marca_com[$cod_marca];
   $bult_lin = odbc_result($resultado, "bult_lin");
@@ -334,10 +366,10 @@ while ((odbc_fetch_row($resultado)) && ($lineas < 30)) {
   $des_art = limpiar(odbc_result($resultado, "des_art"));
 
   $line = array(
-    "Marcas" => "$amp_marcas",
+    "Marcas" => "$des_termina",
     "Bultos" => "$bult_lin",
     "Envase" => "$des_env",
-    "Mercancia" => "$des_art",
+    "Mercancia" => "$des_art  $des_var $des_cal",
     "Peso bruto en kg" => "$brut_lin",
     "Volumen en m3" => " "
   );
