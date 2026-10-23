@@ -377,17 +377,28 @@ if ($a % 2 == 1) {
   echo " class=odd";
 }
 echo ">";
+// Quién paga el transporte: en DECA viene fijado por los datos de transporte (solo lectura);
+// en CMR se elige aquí y, si no hay ninguno guardado, sale marcado Destino
+$en_destino_form = $en_destino;
+$radio_destino = 'disabled';
+if ($tipo_doc == 'CMR') {
+  $radio_destino = '';
+  if ($en_destino_form == '') {
+    $en_destino_form = 'S';
+  }
+}
+
 echo "<td align=left><div id=tit2>Pagar transporte";
 echo "<td align=left colspan=3><div id=tit3><input type=radio name=en_destino value='S' ";
-if ($en_destino == 'S') {
+if ($en_destino_form == 'S') {
   echo "checked ";
 }
-echo "disabled>&nbsp;&nbsp;Destino&nbsp;&nbsp;&nbsp;&nbsp;";
+echo "$radio_destino>&nbsp;&nbsp;Destino&nbsp;&nbsp;&nbsp;&nbsp;";
 echo " <input type=radio name=en_destino value='N' ";
-if ($en_destino == 'N') {
+if ($en_destino_form == 'N') {
   echo "checked ";
 }
-echo "disabled>&nbsp;&nbsp;Origen&nbsp;&nbsp;&nbsp;&nbsp; ";
+echo "$radio_destino>&nbsp;&nbsp;Origen&nbsp;&nbsp;&nbsp;&nbsp; ";
 echo "</div></td>";
 echo "</tr><tr class=amarillo>";
 
@@ -452,7 +463,10 @@ echo "<INPUT TYPE=hidden NAME=cliente VALUE='$cliente_url'>";
 echo "<INPUT TYPE=hidden NAME=empr VALUE='$empr'>";
 echo "<INPUT TYPE=hidden NAME=aaaa VALUE='$aaaa'>";
 echo "<INPUT TYPE=hidden NAME=pai_cli VALUE='$pai_satalbtte'>";
-echo "<INPUT TYPE=hidden NAME=en_destino VALUE='$en_destino'>";
+// En CMR el valor lo envían los radios; en DECA van deshabilitados y se envía el guardado
+if ($tipo_doc == 'DECA') {
+  echo "<INPUT TYPE=hidden NAME=en_destino VALUE='$en_destino'>";
+}
 echo "<INPUT TYPE=hidden NAME=nombre_pdf_deca VALUE='$nombre_pdf_deca'>";
 echo "<INPUT TYPE=hidden NAME=ruta_pdf_deca VALUE='$ruta_pdf_deca'>";
 echo "<INPUT TYPE=hidden NAME=ejercicio_deca VALUE='$ejercicio_deca'>";
