@@ -477,6 +477,15 @@ echo "<INPUT TYPE=hidden NAME=id_deca VALUE='$id_deca'>";
 
 ?>
 <script>
+	// Evita el doble envío desactivando el botón
+	function checkSubmit() {
+		var boton = document.getElementById('btsubmit');
+
+		boton.value = 'Enviando... por favor espere';
+		boton.disabled = true;
+		return true;
+	}
+
 	function muestradata() {
 		var formulario = document.forms['libro'];
 

@@ -268,6 +268,15 @@ switch ($accion) {
 				form.submit();
 			}
 
+			// Evita el doble envío desactivando el botón
+			function checkSubmit() {
+				var boton = document.getElementById('btsubmit');
+
+				boton.value = 'Enviando... por favor espere';
+				boton.disabled = true;
+				return true;
+			}
+
 			function muestradata(form) {
 				checkSubmit();
 				form.submit();
